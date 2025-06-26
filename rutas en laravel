@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crear Post</title>
+</head>
+<body>
+    <form method="POST" action="/posts">
+        @csrf
+        <label>Título del post:</label>
+        <input type="text" name="title" required>
+        <button type="submit">Enviar</button>
+    </form>
+</body>
+</html>
