@@ -1,0 +1,88 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+class Producto extends Model
+{
+    use HasFactory;
+
+    protected $fillable = ['nombre', 'precio', 'activo', 'caracteristicas', 'publicado_en'];
+
+    protected $casts = [
+        'precio' => 'float',
+        'activo' => 'boolean',
+        'caracteristicas' => 'array',
+        'publicado_en' => 'datetime',
+    ];
+}
+
+
+
+
+ProductoFactory.php
+php
+Copiar
+Editar
+<?php
+
+namespace Database\Factories;
+
+use App\Models\Producto;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class ProductoFactory extends Factory
+{
+    protected $model = Producto::class;
+
+    public function definition(): array
+    {
+        return [
+            'nombre' => $this->faker->word(),
+            'precio' => $this->faker->randomFloat(2, 100, 999),
+            'activo' => $this->faker->boolean(),
+            'caracteristicas' => ['color' => $this->faker->safeColorName()],
+            'publicado_en' => now(),
+        ];
+    }
+}
+
+
+
+
+ProductoSeeder.php
+php
+Copiar
+Editar
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use App\Models\Producto;
+
+class ProductoSeeder extends Seeder
+{
+    public function run(): void
+    {
+        Producto::factory()->count(10)->create();
+    }
+}
+
+
+
+DatabaseSeeder.php
+php
+Copiar
+Editar
+public function run(): void
+{
+    \App\Models\User::firstOrCreate(
+        ['email' => 'test@example.com'],
+        ['name' => 'Test User', 'password' => bcrypt('password')]
+    );
+
+    $this->call(ProductoSeeder::class);
+}
